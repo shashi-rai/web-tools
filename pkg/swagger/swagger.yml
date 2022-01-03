@@ -1,0 +1,59 @@
+consumes:
+- application/json
+info:
+  description: Bhojpur Web server with API endpoints definition.
+  title: web-rest-api
+  version: 0.1.0
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
+
+paths:
+  /status:
+    get:
+      operationId: checkStatus
+      produces:
+      - text/plain
+      responses:
+        '200':
+          description: OK message.
+          schema:
+            type: string
+            enum:
+            - OK
+
+  /user/{user}:
+    get:
+      description: Returns information about the user!
+      parameters:
+        - name: user
+          in: path
+          type: string
+          required: true
+          description: The name of the user.
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+
+  /image/{name}:
+    get:
+      description: Return the Image.
+      produces:
+      - image/png
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+          description: The name of the image to display.
+      responses:
+        200:
+          description: Returns the image.
+          schema:
+            type: file
