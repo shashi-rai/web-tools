@@ -1,0 +1,35 @@
+tasks:
+    build:
+        desc: Build the app
+        cmds:
+        - GOFLAGS=-mod=mod go build -o bin/webctl main.go 
+
+    run: 
+        desc: Run the app
+        cmds:
+        - GOFLAGS=-mod=mod go run main.go
+
+    generate:
+        desc: Generate Go code from protobuf
+        cmds:
+        - protoc --go_out=plugins=grpc:. --go_opt=paths=source_relative pkg/api/v1/web.proto
+
+    test:
+        desc: Execute Unit Tests
+        cmds:
+        - gotestsum --junitfile test-results/unit-tests.xml -- -short -race -cover -coverprofile test-results/cover.out ./...
+
+    swagger.gen:
+        desc: Generate Go code
+        cmds:
+        - GOFLAGS=-mod=mod go generate github.com/shashi-rai/web-tools/internal github.com/shashi-rai/web-tools/pkg/swagger
+
+    swagger.validate:
+        desc: Validate swagger
+        cmds:
+        - swagger validate pkg/swagger/swagger.yml
+
+    swagger.doc:
+        desc: Doc for swagger
+        cmds:
+        - docker run -i yousan/swagger-yaml-to-html < pkg/swagger/swagger.yml > doc/index.html
