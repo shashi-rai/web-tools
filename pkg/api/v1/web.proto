@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package v1;
+option go_package = "github.com/shashi-rai/web-tools/pkg/api/v1";
+import "google/protobuf/timestamp.proto";
+
+service WebService {
+    rpc GetStatus(WebRequest) returns (WebReply) {}
+}
+
+message WebRequest {
+    string name = 1;
+}
+
+message WebReply {
+    string message = 1;
+}
